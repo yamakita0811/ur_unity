@@ -1,11 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.XR.ARFoundation;
 
 public class PassthroughController : MonoBehaviour
 {
-    public Camera passthroughCamera;
-    public RawImage passthroughImage;
     public Transform anchorTransform;  // FixedAnchorのTransformを設定
     public float passthroughRadius = 1.0f;
 
@@ -13,13 +9,8 @@ public class PassthroughController : MonoBehaviour
 
     void Start()
     {
-        // PassthroughImageのマテリアルを取得
-        passthroughMaterial = passthroughImage.material;
-
-        // PassthroughカメラのRenderTextureを設定
-        RenderTexture passthroughTexture = new RenderTexture(Screen.width, Screen.height, 24);
-        passthroughCamera.targetTexture = passthroughTexture;
-        passthroughImage.texture = passthroughTexture;
+        // Passthroughシェーダーを適用したマテリアルを作成
+        passthroughMaterial = new Material(Shader.Find("Custom/PassthroughShader"));
 
         // 初期パススルー領域の設定
         SetPassthroughRegion(anchorTransform.position, passthroughRadius);
@@ -27,7 +18,6 @@ public class PassthroughController : MonoBehaviour
 
     void SetPassthroughRegion(Vector3 worldPosition, float radius)
     {
-        // ワールド座標をそのまま使用
         passthroughMaterial.SetVector("_PassthroughCenter", new Vector4(worldPosition.x, worldPosition.y, worldPosition.z, 0));
         passthroughMaterial.SetFloat("_PassthroughRadius", radius);
 
@@ -39,5 +29,12 @@ public class PassthroughController : MonoBehaviour
     {
         // アンカーの位置を取得してパススルー領域を更新
         SetPassthroughRegion(anchorTransform.position, passthroughRadius);
+    }
+
+    void OnRenderObject()
+    {
+        // パススルーマテリアルを使用してシーンをレンダリング
+        passthroughMaterial.SetPass(0);
+        Graphics.DrawProceduralNow(MeshTopology.Points, 1);
     }
 }

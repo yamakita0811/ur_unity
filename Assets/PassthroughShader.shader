@@ -2,9 +2,8 @@ Shader "Custom/PassthroughShader"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _PassthroughCenter ("Passthrough Center", Vector) = (0.5, 0.5, 0, 0)
-        _PassthroughRadius ("Passthrough Radius", Float) = 0.25
+        _PassthroughCenter ("Passthrough Center", Vector) = (0, 0, 0, 0)
+        _PassthroughRadius ("Passthrough Radius", Float) = 1.0
     }
     SubShader
     {
@@ -21,16 +20,15 @@ Shader "Custom/PassthroughShader"
             struct appdata_t
             {
                 float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD0;
             };
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
+                float3 worldPos : TEXCOORD0;
             };
 
-            sampler2D _MainTex;
             float4 _PassthroughCenter;
             float _PassthroughRadius;
 
@@ -38,21 +36,20 @@ Shader "Custom/PassthroughShader"
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
-                float2 passthroughCenter = _PassthroughCenter.xy;
-                float dist = distance(i.uv, passthroughCenter);
+                float3 passthroughCenter = _PassthroughCenter.xyz;
+                float dist = distance(i.worldPos, passthroughCenter);
                 if (dist < _PassthroughRadius)
                 {
                     // Passthrough領域（透明にする）
-                    col.a = 0;
+                    return fixed4(0, 0, 0, 0);
                 }
-                return col;
+                return fixed4(1, 1, 1, 1); // 視覚的に確認できるように白にする
             }
             ENDCG
         }
