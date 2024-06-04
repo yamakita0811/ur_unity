@@ -6,11 +6,19 @@ public class PassthroughController : MonoBehaviour
     public float passthroughRadius = 1.0f;
 
     private Material passthroughMaterial;
+    private Renderer cubeRenderer;
 
     void Start()
     {
-        // Passthroughシェーダーを適用したマテリアルを作成
+        cubeRenderer = GetComponent<Renderer>();
+        if (cubeRenderer == null)
+        {
+            Debug.LogError("Renderer not found on the object.");
+            return;
+        }
+
         passthroughMaterial = new Material(Shader.Find("Custom/PassthroughShader"));
+        cubeRenderer.material = passthroughMaterial;
 
         // 初期パススルー領域の設定
         SetPassthroughRegion(anchorTransform.position, passthroughRadius);
@@ -21,20 +29,20 @@ public class PassthroughController : MonoBehaviour
         passthroughMaterial.SetVector("_PassthroughCenter", new Vector4(worldPosition.x, worldPosition.y, worldPosition.z, 0));
         passthroughMaterial.SetFloat("_PassthroughRadius", radius);
 
-        // デバッグログで位置を確認
-        Debug.Log("Anchor position: " + worldPosition);
+        Debug.Log("Passthrough region center set to: " + worldPosition);
+        Debug.Log("Passthrough region radius set to: " + radius);
     }
 
     void Update()
     {
-        // アンカーの位置を取得してパススルー領域を更新
-        SetPassthroughRegion(anchorTransform.position, passthroughRadius);
-    }
-
-    void OnRenderObject()
-    {
-        // パススルーマテリアルを使用してシーンをレンダリング
-        passthroughMaterial.SetPass(0);
-        Graphics.DrawProceduralNow(MeshTopology.Points, 1);
+        if (anchorTransform != null)
+        {
+            SetPassthroughRegion(anchorTransform.position, passthroughRadius);
+            Debug.Log("Anchor position updated to: " + anchorTransform.position);
+        }
+        else
+        {
+            Debug.LogError("AnchorTransform is not set");
+        }
     }
 }

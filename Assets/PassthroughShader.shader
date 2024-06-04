@@ -46,10 +46,9 @@ Shader "Custom/PassthroughShader"
                 float dist = distance(i.worldPos, passthroughCenter);
                 if (dist < _PassthroughRadius)
                 {
-                    // Passthrough領域（透明にする）
-                    return fixed4(0, 0, 0, 0);
+                    return fixed4(0, 0, 0, 0); // パススルー領域を透明に
                 }
-                return fixed4(1, 1, 1, 1); // 視覚的に確認できるように白にする
+                return fixed4(1, 1, 1, 1); // 確認のために白
             }
             ENDCG
         }
