@@ -173,6 +173,7 @@ GameObject:
   - component: {fileID: 192766467}
   - component: {fileID: 192766466}
   - component: {fileID: 192766470}
+  - component: {fileID: 192766471}
   m_Layer: 0
   m_Name: AnchorTransform
   m_TagString: Untagged
@@ -273,14 +274,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 192766465}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18de27094d235f94d9fd6aaea7a5c832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorTransform: {fileID: 0}
+  passthroughRadius: 1
+--- !u!114 &192766471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 192766465}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 18de27094d235f94d9fd6aaea7a5c832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passthroughAreaCenter: {fileID: 722917559}
-  passthroughAreaRadius: 1
-  passthroughMaterial: {fileID: 2100000, guid: 713f56f583bdae0499216aa7e7bcc06c, type: 2}
+  anchorTransform: {fileID: 722917559}
+  passthroughRadius: 1
 --- !u!1 &244717065
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,8 +399,6 @@ GameObject:
   - component: {fileID: 657024173}
   - component: {fileID: 657024171}
   - component: {fileID: 657024172}
-  - component: {fileID: 657024174}
-  - component: {fileID: 657024175}
   m_Layer: 0
   m_Name: PassthroughCamera
   m_TagString: Untagged
@@ -468,36 +480,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1827702757}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &657024174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657024170}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18de27094d235f94d9fd6aaea7a5c832, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  passthroughAreaCenter: {fileID: 0}
-  passthroughAreaRadius: 1
-  passthroughMaterial: {fileID: 0}
---- !u!114 &657024175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 657024170}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18de27094d235f94d9fd6aaea7a5c832, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  passthroughAreaCenter: {fileID: 0}
-  passthroughAreaRadius: 1
-  passthroughMaterial: {fileID: 0}
 --- !u!1 &678832750 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100004, guid: b8e43ba148de17c45ae9b795ad505bf0, type: 3}
@@ -598,9 +580,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18de27094d235f94d9fd6aaea7a5c832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passthroughAreaCenter: {fileID: 0}
-  passthroughAreaRadius: 1
-  passthroughMaterial: {fileID: 0}
+  anchorTransform: {fileID: 0}
+  passthroughRadius: 1
 --- !u!114 &678832771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,9 +594,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18de27094d235f94d9fd6aaea7a5c832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  passthroughAreaCenter: {fileID: 0}
-  passthroughAreaRadius: 1
-  passthroughMaterial: {fileID: 0}
+  anchorTransform: {fileID: 0}
+  passthroughRadius: 1
+--- !u!114 &678832776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678832750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18de27094d235f94d9fd6aaea7a5c832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anchorTransform: {fileID: 722917559}
+  passthroughRadius: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,7 +729,7 @@ Transform:
   m_GameObject: {fileID: 722917558}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0.07, y: 0, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -892,6 +886,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 100004, guid: b8e43ba148de17c45ae9b795ad505bf0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 678832771}
+    - targetCorrespondingSourceObject: {fileID: 100004, guid: b8e43ba148de17c45ae9b795ad505bf0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 678832776}
   m_SourcePrefab: {fileID: 100100000, guid: b8e43ba148de17c45ae9b795ad505bf0, type: 3}
 --- !u!4 &1269988329 stripped
 Transform:
