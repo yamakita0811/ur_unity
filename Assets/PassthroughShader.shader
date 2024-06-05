@@ -7,7 +7,7 @@ Shader "Custom/PassthroughShader"
     }
     SubShader
     {
-        Tags { "Queue"="Overlay" }
+        Tags { "RenderType"="Opaque" }
         LOD 100
 
         Pass
@@ -15,40 +15,42 @@ Shader "Custom/PassthroughShader"
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+
             #include "UnityCG.cginc"
 
-            struct appdata_t
+            struct appdata
             {
                 float4 vertex : POSITION;
-                float3 worldPos : TEXCOORD0;
             };
 
             struct v2f
             {
-                float4 vertex : SV_POSITION;
+                float4 pos : POSITION;
                 float3 worldPos : TEXCOORD0;
             };
 
             float4 _PassthroughCenter;
             float _PassthroughRadius;
 
-            v2f vert (appdata_t v)
+            v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.pos = UnityObjectToClipPos(v.vertex);
                 o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (v2f i) : SV_Target
             {
-                float3 passthroughCenter = _PassthroughCenter.xyz;
-                float dist = distance(i.worldPos, passthroughCenter);
-                if (dist < _PassthroughRadius)
+                float distanceToCenter = distance(i.worldPos, _PassthroughCenter.xyz);
+                if (distanceToCenter < _PassthroughRadius)
                 {
-                    return fixed4(0, 0, 0, 0); // パススルー領域を透明に
+                    return half4(0, 0, 0, 0); // パススルー領域
                 }
-                return fixed4(1, 1, 1, 1); // 確認のために白
+                else
+                {
+                    return half4(1, 1, 1, 1); // VR領域
+                }
             }
             ENDCG
         }
